@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import { messagesRepository } from "@repositories/messages";
 import { isAttribute } from "@domain/attribute";
 import { last } from "../../../utils/arrays";
+import { Recommendation } from "@entities/recommendation";
 
 export const MessagesList = observer(() => {
     const messages = messagesRepository.get();
@@ -34,7 +35,7 @@ export const MessagesList = observer(() => {
                         onSelect={handleSelect}
                     />
                 ) : (
-                    "recommendation" // TODO support recommendation
+                    <Recommendation recommedation={m} key={JSON.stringify(m.cases)} />
                 )
             )}
             {loading && <AttributeLoader />}
