@@ -3,13 +3,18 @@ import { Box } from "@chakra-ui/react";
 import { observer } from "mobx-react";
 import { messagesRepository } from "@repositories/messages";
 import { isAttribute } from "@domain/attribute";
+import { last } from "../../../utils/arrays";
 
 export const MessagesList = observer(() => {
     const messages = messagesRepository.get();
     const loading = messagesRepository.loading;
 
+    if (!loading && messages.length === 0) {
+        messagesRepository.init();
+    }
+
     const handleSelect = (value: string): void => {
-        const lastMessage = messages[messages.length - 1];
+        const lastMessage = last(messages.filter((m) => isAttribute(m)));
 
         if (!isAttribute(lastMessage) || lastMessage.completed) {
             throw new Error("cannot be updated");
@@ -29,7 +34,7 @@ export const MessagesList = observer(() => {
                         onSelect={handleSelect}
                     />
                 ) : (
-                    "" // TODO support recommendation
+                    "recommendation" // TODO support recommendation
                 )
             )}
             {loading && <AttributeLoader />}

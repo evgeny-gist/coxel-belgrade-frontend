@@ -1,5 +1,6 @@
-import { CompletedAttribute, Attribute } from "@domain/attribute";
+import { CompletedAttribute } from "@domain/attribute";
+import { Message } from "@domain/message";
 
 export interface IMessagesApi {
-    resolve: (messages: CompletedAttribute[]) => Promise<Attribute[]>;
+    resolve: (attributes: CompletedAttribute[]) => Promise<Message[]>;
 }

@@ -1,4 +1,5 @@
 export type Attribute = {
+    name: string;
     completed: boolean;
     question: string;
     type: AttributeType;

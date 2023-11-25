@@ -1,68 +1,69 @@
-import { Attribute, isAttributeCompleted } from "@domain/attribute";
 import { IMessagesApi } from "./messages-api.interface";
 import { makeAutoObservable } from "mobx";
 import { Message } from "@domain/message";
+import { selectAttributes, selectCompletedAttributes } from "./helpers";
+import { CompletedAttribute } from "@domain/attribute";
 
 export class MessagesRepository {
     constructor(private readonly api: IMessagesApi) {
         makeAutoObservable(this);
     }
 
+    initialized = false;
     loading = false;
 
-    messages: Message[] = [
-        {
-            completed: false,
-            question: "В какой стране вы находитесь?",
-            type: "select",
-            options: [
-                {
-                    label: "Италия",
-                    value: "italy",
-                },
-                {
-                    label: "Сербия",
-                    value: "serbia",
-                },
-                {
-                    label: "Босния и Герцеговина",
-                    value: "bosnia",
-                },
-            ],
-        },
-    ];
+    messages: Message[] = [];
 
     get(): Message[] {
         return [...this.messages];
     }
 
+    init(): void {
+        if (this.initialized) {
+            return;
+        }
+
+        this.makeRequest([]).then(() => this.setInitialized());
+    }
+
     advance(currentAttributeValue: string): void {
+        console.debug('before', this.messages)
         this.updateCurrentAttribute(currentAttributeValue);
-
-        this.setLoading(true);
-
-        this.api
-            .resolve(this.messages.filter(isAttributeCompleted))
-            .then((res) => this.setMessages(res))
-            .finally(() => this.setLoading(false));
+        console.debug('after', this.messages)
+        this.makeRequest(selectCompletedAttributes(this.messages));
     }
 
     private updateCurrentAttribute(value: string): void {
+        const attributes = selectAttributes(this.messages);
+
         this.setMessages([
-            ...this.messages.slice(0, this.messages.length - 1),
+            ...attributes.slice(0, attributes.length - 1),
             {
-                ...this.messages[this.messages.length - 1],
+                ...attributes[attributes.length - 1],
                 completed: true,
                 response: value,
             },
         ]);
     }
 
+    private makeRequest(attributes: CompletedAttribute[]): Promise<void> {
+        this.setLoading(true);
+
+        return this.api
+            .resolve(attributes)
+            .then((res) => this.setMessages(res))
+            .finally(() => this.setLoading(false));
+    }
+
     private setLoading(value = true): void {
         this.loading = value;
     }
 
-    private setMessages(steps: Attribute[]): void {
+    private setMessages(steps: Message[]): void {
         this.messages = steps;
+    }
+
+    private setInitialized(value = true): void {
+        this.initialized = value;
     }
 }
