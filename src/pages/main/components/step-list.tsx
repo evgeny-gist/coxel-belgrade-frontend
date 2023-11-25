@@ -1,9 +1,10 @@
-import { Step } from "../../../entities/step";
-import { steps as mockSteps } from "../mocks";
+import { Step } from "@entities/step";
 import { Box } from "@chakra-ui/react";
+import { observer } from "mobx-react";
+import { stepsRepository } from "@repositories/steps";
 
-export const StepList = () => {
-    const steps = mockSteps;
+export const StepList = observer(() => {
+    const steps = stepsRepository.get();
 
     return (
         <Box>
@@ -12,4 +13,4 @@ export const StepList = () => {
             ))}
         </Box>
     );
-};
+});
