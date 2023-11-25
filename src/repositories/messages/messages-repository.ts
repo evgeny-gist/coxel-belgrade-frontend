@@ -1,15 +1,16 @@
-import { Step, isStepCompleted } from "@domain/step";
-import { IStepsApi } from "./steps-api.interface";
+import { Attribute, isAttributeCompleted } from "@domain/attribute";
+import { IMessagesApi } from "./messages-api.interface";
 import { makeAutoObservable } from "mobx";
+import { Message } from "@domain/message";
 
-export class StepsRepository {
-    constructor(private readonly api: IStepsApi) {
+export class MessagesRepository {
+    constructor(private readonly api: IMessagesApi) {
         makeAutoObservable(this);
     }
 
     loading = false;
 
-    steps: Step[] = [
+    messages: Message[] = [
         {
             completed: false,
             question: "В какой стране вы находитесь?",
@@ -31,26 +32,26 @@ export class StepsRepository {
         },
     ];
 
-    get(): Step[] {
-        return [...this.steps];
+    get(): Message[] {
+        return [...this.messages];
     }
 
-    advance(currentStepValue: string): void {
-        this.updateCurrentStep(currentStepValue);
+    advance(currentAttributeValue: string): void {
+        this.updateCurrentAttribute(currentAttributeValue);
 
         this.setLoading(true);
 
         this.api
-            .resolve(this.steps.filter(isStepCompleted))
-            .then((res) => this.setSteps(res))
+            .resolve(this.messages.filter(isAttributeCompleted))
+            .then((res) => this.setMessages(res))
             .finally(() => this.setLoading(false));
     }
 
-    private updateCurrentStep(value: string): void {
-        this.setSteps([
-            ...this.steps.slice(0, this.steps.length - 1),
+    private updateCurrentAttribute(value: string): void {
+        this.setMessages([
+            ...this.messages.slice(0, this.messages.length - 1),
             {
-                ...this.steps[this.steps.length - 1],
+                ...this.messages[this.messages.length - 1],
                 completed: true,
                 response: value,
             },
@@ -61,7 +62,7 @@ export class StepsRepository {
         this.loading = value;
     }
 
-    private setSteps(steps: Step[]): void {
-        this.steps = steps;
+    private setMessages(steps: Attribute[]): void {
+        this.messages = steps;
     }
 }

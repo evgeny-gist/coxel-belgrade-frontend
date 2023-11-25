@@ -8,16 +8,16 @@ import {
     Select,
     Text,
 } from "@chakra-ui/react";
-import { CompletedStep, Step as StepModel, isSelectStep, isStepCompleted } from "@domain/step";
+import { CompletedAttribute, Attribute as AttributeModel, isSelectAttribute, isAttributeCompleted } from "@domain/attribute";
 import { FC, useState } from "react";
 
-type StepProps = {
-    step: StepModel;
+type AttributeProps = {
+    attribute: AttributeModel;
     marginBottom?: string | number;
     onSelect?: (value: string) => void;
 };
 
-export const Step: FC<StepProps> = ({ step, marginBottom, onSelect }) => {
+export const Attribute: FC<AttributeProps> = ({ attribute: step, marginBottom, onSelect }) => {
     const anotherKey = "another";
     const [anotherOptionEnabled, setAnotherOption] = useState(false);
     const [anotherInputValue, setAnotherValue] = useState("");
@@ -30,7 +30,7 @@ export const Step: FC<StepProps> = ({ step, marginBottom, onSelect }) => {
         }
     };
 
-    if (!isStepCompleted(step) && isSelectStep(step)) {
+    if (!isAttributeCompleted(step) && isSelectAttribute(step)) {
         return (
             <>
                 <Select
@@ -80,13 +80,13 @@ export const Step: FC<StepProps> = ({ step, marginBottom, onSelect }) => {
                 </Text>
             </CardHeader>
             <CardBody py={1}>
-                {isStepCompleted(step) && (
+                {isAttributeCompleted(step) && (
                     <Text color={getTextColor()} fontSize="2xl" fontWeight="bold">
                         {getResponse(step)}
                     </Text>
                 )}
             </CardBody>
-            {isStepCompleted(step) && (
+            {isAttributeCompleted(step) && (
                 <CardFooter>
                     <Button colorScheme="blue" variant="link">
                         Изменить
@@ -97,7 +97,7 @@ export const Step: FC<StepProps> = ({ step, marginBottom, onSelect }) => {
     );
 };
 
-function getBgColor(step: StepModel): string {
+function getBgColor(step: AttributeModel): string {
     if (step.completed) {
         return "blue.50";
     }
@@ -105,7 +105,7 @@ function getBgColor(step: StepModel): string {
     return "";
 }
 
-function getBorderColor(step: StepModel): string {
+function getBorderColor(step: AttributeModel): string {
     if (step.completed) {
         return "blue.200";
     }
@@ -113,7 +113,7 @@ function getBorderColor(step: StepModel): string {
     return "gray.400";
 }
 
-function getResponse(step: CompletedStep): string {
+function getResponse(step: CompletedAttribute): string {
     if (step.type === "plain") {
         return step.response;
     }

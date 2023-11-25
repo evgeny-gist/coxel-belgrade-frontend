@@ -1,9 +1,9 @@
-import { CompletedStep, Step } from "@domain/step";
-import { IStepsApi } from "../steps-api.interface";
+import { CompletedAttribute, Attribute } from "@domain/attribute";
+import { IMessagesApi } from "../messages-api.interface";
 import { fakeAsync } from "../../../utils/fake-async";
 
-export class MockStepsApi implements IStepsApi {
-    private steps: Step[] = [
+export class MockMessagesApi implements IMessagesApi {
+    private steps: Attribute[] = [
         {
             completed: false,
             question: "В какой стране вы находитесь?",
@@ -68,7 +68,7 @@ export class MockStepsApi implements IStepsApi {
         },
     ];
 
-    public resolve(steps: CompletedStep[]): Promise<Step[]> {
+    public resolve(steps: CompletedAttribute[]): Promise<Attribute[]> {
         return fakeAsync(
             [...steps, this.steps[steps.length]].filter((s) => Boolean(s)),
             2000
