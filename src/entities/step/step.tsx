@@ -12,8 +12,8 @@ import { CompletedStep, Step as StepModel, isSelectStep, isStepCompleted } from 
 import { FC, useState } from "react";
 
 type StepProps = {
-    marginBottom: string | number;
     step: StepModel;
+    marginBottom?: string | number;
     onSelect?: (value: string) => void;
 };
 
