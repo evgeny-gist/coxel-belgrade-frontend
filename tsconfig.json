@@ -21,6 +21,8 @@
     "noFallthroughCasesInSwitch": true,
 
     "paths": {
+      "@domain": ["./src/domain"],
+      "@domain/*": ["./src/domain/*"],
       "@composition": ["./src/composition"],
       "@composition/*": ["./src/composition/*"],
       "@pages": ["./src/pages"],
