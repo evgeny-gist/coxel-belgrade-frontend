@@ -6,7 +6,11 @@ import { isAttribute } from "@domain/attribute";
 import { last } from "../../../utils/arrays";
 import { Recommendation } from "@entities/recommendation";
 
-export const MessagesList = observer(() => {
+type MessagesListProps = {
+    marginBottom?: string | number;
+};
+
+export const MessagesList = observer(({ marginBottom }: MessagesListProps) => {
     const messages = messagesRepository.get();
     const loading = messagesRepository.loading;
 
@@ -25,7 +29,7 @@ export const MessagesList = observer(() => {
     };
 
     return (
-        <Box>
+        <Box marginBottom={marginBottom}>
             {messages.map((m) =>
                 isAttribute(m) ? (
                     <Attribute

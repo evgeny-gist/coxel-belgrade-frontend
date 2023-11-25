@@ -1,11 +1,15 @@
-import { IMessagesApi } from "./messages-api.interface";
+import { IMessagesApi, ResolveResponse } from "./dependencies/messages-api.interface";
 import { makeAutoObservable } from "mobx";
 import { Message } from "@domain/message";
 import { selectAttributes, selectCompletedAttributes } from "./helpers";
 import { CompletedAttribute } from "@domain/attribute";
+import { IRequestsAdapter } from "./dependencies/requests-adapter.interface";
 
 export class MessagesRepository {
-    constructor(private readonly api: IMessagesApi) {
+    constructor(
+        private readonly api: IMessagesApi,
+        private readonly requestsAdapter: IRequestsAdapter
+    ) {
         makeAutoObservable(this);
     }
 
@@ -27,9 +31,9 @@ export class MessagesRepository {
     }
 
     advance(currentAttributeValue: string): void {
-        console.debug('before', this.messages)
+        console.debug("before", this.messages);
         this.updateCurrentAttribute(currentAttributeValue);
-        console.debug('after', this.messages)
+        console.debug("after", this.messages);
         this.makeRequest(selectCompletedAttributes(this.messages));
     }
 
@@ -51,8 +55,13 @@ export class MessagesRepository {
 
         return this.api
             .resolve(attributes)
-            .then((res) => this.setMessages(res))
+            .then((res) => this.handleResolve(res))
             .finally(() => this.setLoading(false));
+    }
+
+    private handleResolve(res: ResolveResponse): void {
+        this.setMessages(res.messages);
+        this.requestsAdapter.toggle(res.showForm);
     }
 
     private setLoading(value = true): void {

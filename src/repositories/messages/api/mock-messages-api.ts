@@ -1,7 +1,6 @@
 import { CompletedAttribute, Attribute } from "@domain/attribute";
-import { IMessagesApi } from "../messages-api.interface";
+import { IMessagesApi, ResolveResponse } from "../dependencies/messages-api.interface";
 import { fakeAsync } from "../../../utils/fake-async";
-import { Message } from "@domain/message";
 import { Recommendation } from "@domain/recommendation";
 
 const RECOMMENDATION = `
@@ -83,11 +82,16 @@ export class MockMessagesApi implements IMessagesApi {
         },
     ];
 
-    public resolve(steps: CompletedAttribute[]): Promise<Message[]> {
-        return fakeAsync<Message[]>(
-            [...steps, this.attributes[steps.length], this.getRecommendation()!].filter((s) =>
-                Boolean(s)
-            ),
+    public resolve(steps: CompletedAttribute[]): Promise<ResolveResponse> {
+        return fakeAsync<ResolveResponse>(
+            {
+                messages: [
+                    ...steps,
+                    this.attributes[steps.length],
+                    this.getRecommendation()!,
+                ].filter((s) => Boolean(s)),
+                showForm: steps.length === 3,
+            },
             2000
         );
     }
