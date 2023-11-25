@@ -18,11 +18,12 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "paths": {
-    "@composition": ["./src/composition"],
-    "@composition/*": ["./src/composition/*"],
+    "noFallthroughCasesInSwitch": true,
+
+    "paths": {
+      "@composition": ["./src/composition"],
+      "@composition/*": ["./src/composition/*"],
+    },
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
