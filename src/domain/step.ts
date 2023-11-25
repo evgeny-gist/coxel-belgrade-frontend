@@ -21,6 +21,7 @@ export const isStepUncompleted = (s: Step): s is CompletedStep => !s.completed &
 export type SelectStep = Omit<Step, "options"> & {
     options: NonNullable<Step["options"]>;
 };
+export const isSelectStep = (s: Step): s is SelectStep => s.type === "select";
 
 export type SelectOption = {
     label: string;
