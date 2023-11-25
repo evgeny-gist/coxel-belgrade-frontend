@@ -23,6 +23,8 @@
     "paths": {
       "@composition": ["./src/composition"],
       "@composition/*": ["./src/composition/*"],
+      "@pages": ["./src/pages"],
+      "@pages/*": ["./src/pages/*"],
     },
   },
   "include": ["src"],

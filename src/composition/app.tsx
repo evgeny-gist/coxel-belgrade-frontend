@@ -1,6 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { Container } from "@chakra-ui/react";
-import { MainPage } from "../pages/main";
+import { MainPage } from "@pages/main";
 
 export function App() {
     return (
