@@ -1,15 +1,20 @@
-import { Step } from "../../../entities/step";
-import { steps as mockSteps } from "../mocks";
+import { Step } from "@entities/step";
 import { Box } from "@chakra-ui/react";
+import { observer } from "mobx-react";
+import { stepsRepository } from "@repositories/steps";
 
-export const StepList = () => {
-    const steps = mockSteps;
+export const StepList = observer(() => {
+    const steps = stepsRepository.get();
+
+    const handleSelect = (value: string): void => {
+        stepsRepository.advance(value);
+    };
 
     return (
         <Box>
             {steps.map((s) => (
-                <Step step={s} key={s.question} marginBottom={4} />
+                <Step step={s} key={s.question} marginBottom={4} onSelect={handleSelect} />
             ))}
         </Box>
     );
-};
+});
