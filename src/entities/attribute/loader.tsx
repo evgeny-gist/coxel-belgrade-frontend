@@ -4,6 +4,7 @@ import { Attribute } from ".";
 
 export const AttributeLoader = () => {
     const mockStep: AttributeModel = {
+        name: "",
         completed: false,
         question: "",
         type: "select",
