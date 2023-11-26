@@ -76,7 +76,7 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
         };
 
         return (
-            <>
+            <Box mb={marginBottom}>
                 <Heading as="h4" fontSize="md" mb={4} fontWeight={400}>
                     {attribute.question}
                 </Heading>
@@ -122,7 +122,7 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
                         )}
                     </Box>
                 )}
-            </>
+            </Box>
         );
     }
 
@@ -147,11 +147,7 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
                     {attribute.question}
                 </Text>
             </CardHeader>
-            <CardBody
-                display="flex"
-                justifyContent="space-between"
-                alignItems="baseline"
-            >
+            <CardBody display="flex" justifyContent="space-between" alignItems="baseline">
                 {isAttributeCompleted(attribute) && (
                     <Heading as="h3" color={getTextColor()} fontSize="xl" fontWeight="bold">
                         {getResponse(attribute)}
