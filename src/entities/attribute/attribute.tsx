@@ -3,7 +3,6 @@ import {
     Button,
     Card,
     CardBody,
-    CardFooter,
     CardHeader,
     Heading,
     Input,
@@ -148,15 +147,17 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
                     {attribute.question}
                 </Text>
             </CardHeader>
-            <CardBody py={1}>
+            <CardBody
+                display="flex"
+                justifyContent="space-between"
+                alignItems="baseline"
+            >
                 {isAttributeCompleted(attribute) && (
                     <Heading as="h3" color={getTextColor()} fontSize="xl" fontWeight="bold">
                         {getResponse(attribute)}
                     </Heading>
                 )}
-            </CardBody>
-            {isAttributeCompleted(attribute) && (
-                <CardFooter>
+                {isAttributeCompleted(attribute) && (
                     <Button
                         colorScheme="blue"
                         variant="link"
@@ -164,8 +165,8 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
                     >
                         Изменить
                     </Button>
-                </CardFooter>
-            )}
+                )}
+            </CardBody>
         </Card>
     );
 });
