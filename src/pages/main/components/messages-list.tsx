@@ -29,30 +29,32 @@ export const MessagesList = observer(({ marginBottom }: MessagesListProps) => {
         messagesRepository.advance(value);
     };
 
+    const handleUpdate = (index: number, value: string): void => {
+        messagesRepository.update(index, value);
+    };
+
     const isFinalStep = !last(
         messages.filter((m) => isAttribute(m) && isAttributeUncompleted(m))
     );
 
     return (
         <Box marginBottom={marginBottom}>
-            {messages.map((m) => (
-                <WithAutoScroll>
-                    {isAttribute(m) ? (
+            {messages.map((m, i) =>
+                isAttribute(m) ? (
+                    <WithAutoScroll key={m.question}>
                         <Attribute
                             attribute={m}
-                            key={m.question}
                             marginBottom={4}
                             onSelect={handleSelect}
+                            onUpdate={(value) => handleUpdate(i, value)}
                         />
-                    ) : (
-                        <Recommendation
-                            recommedation={m}
-                            isFinalStep={isFinalStep}
-                            key={JSON.stringify(m.cases)}
-                        />
-                    )}
-                </WithAutoScroll>
-            ))}
+                    </WithAutoScroll>
+                ) : (
+                    <WithAutoScroll key={JSON.stringify(m.cases)}>
+                        <Recommendation recommedation={m} isFinalStep={isFinalStep} />
+                    </WithAutoScroll>
+                )
+            )}
             {loading && (
                 <WithAutoScroll>
                     <AttributeLoader />

@@ -8,19 +8,30 @@ import {
     Select,
     Text,
 } from "@chakra-ui/react";
-import { CompletedAttribute, Attribute as AttributeModel, isSelectAttribute, isAttributeCompleted } from "@domain/attribute";
+import {
+    CompletedAttribute,
+    Attribute as AttributeModel,
+    isSelectAttribute,
+    isAttributeCompleted,
+} from "@domain/attribute";
+import { observer } from "mobx-react";
 import { FC, useState } from "react";
 
 type AttributeProps = {
     attribute: AttributeModel;
     marginBottom?: string | number;
     onSelect?: (value: string) => void;
+    onUpdate?: (value: string) => void;
 };
 
-export const Attribute: FC<AttributeProps> = ({ attribute: step, marginBottom, onSelect }) => {
+export const Attribute: FC<AttributeProps> = observer((props) => {
+    const { attribute, marginBottom, onSelect, onUpdate } = props;
+
     const anotherKey = "another";
     const [anotherOptionEnabled, setAnotherOption] = useState(false);
     const [anotherInputValue, setAnotherValue] = useState("");
+
+    const [isUpdating, setUpdating] = useState(false);
 
     const handleSelect = (option: string): void => {
         if (option === anotherKey) {
@@ -30,7 +41,26 @@ export const Attribute: FC<AttributeProps> = ({ attribute: step, marginBottom, o
         }
     };
 
-    if (!isAttributeCompleted(step) && isSelectAttribute(step)) {
+    if (isUpdating && isAttributeCompleted(attribute)) {
+        const handleUpdate = (value: string): void => {
+            setUpdating(false);
+            onUpdate && onUpdate(value);
+        }
+
+        return (
+            <Attribute
+                {...props}
+                attribute={{
+                    ...attribute,
+                    completed: false,
+                    response: undefined,
+                }}
+                onSelect={handleUpdate}
+            />
+        );
+    }
+
+    if (!isAttributeCompleted(attribute) && isSelectAttribute(attribute)) {
         return (
             <>
                 <Select
@@ -38,12 +68,12 @@ export const Attribute: FC<AttributeProps> = ({ attribute: step, marginBottom, o
                     mb={2}
                     size="lg"
                     borderRadius="md"
-                    borderColor={getBorderColor(step)}
-                    placeholder={step.question}
+                    borderColor={getBorderColor(attribute)}
+                    placeholder={attribute.question}
                     color={getTextColor()}
                     onChange={(e) => handleSelect(e.target.value)}
                 >
-                    {step.options.map((o) => (
+                    {attribute.options.map((o) => (
                         <option key={o.value} value={o.value}>
                             {o.label}
                         </option>
@@ -53,8 +83,8 @@ export const Attribute: FC<AttributeProps> = ({ attribute: step, marginBottom, o
                 {anotherOptionEnabled && (
                     <Input
                         borderRadius="md"
-                        borderColor={getBorderColor(step)}
-                        placeholder={step.question}
+                        borderColor={getBorderColor(attribute)}
+                        placeholder={attribute.question}
                         color={getTextColor()}
                         value={anotherInputValue}
                         onChange={(e) => setAnotherValue(e.target.value)}
@@ -71,31 +101,31 @@ export const Attribute: FC<AttributeProps> = ({ attribute: step, marginBottom, o
             overflow="hidden"
             borderWidth="1px"
             borderRadius="md"
-            borderColor={getBorderColor(step)}
-            backgroundColor={getBgColor(step)}
+            borderColor={getBorderColor(attribute)}
+            backgroundColor={getBgColor(attribute)}
         >
             <CardHeader>
                 <Text color={getTextColor()} fontSize="xl">
-                    {step.question}
+                    {attribute.question}
                 </Text>
             </CardHeader>
             <CardBody py={1}>
-                {isAttributeCompleted(step) && (
+                {isAttributeCompleted(attribute) && (
                     <Text color={getTextColor()} fontSize="2xl" fontWeight="bold">
-                        {getResponse(step)}
+                        {getResponse(attribute)}
                     </Text>
                 )}
             </CardBody>
-            {isAttributeCompleted(step) && (
+            {isAttributeCompleted(attribute) && (
                 <CardFooter>
-                    <Button colorScheme="blue" variant="link">
+                    <Button colorScheme="blue" variant="link" onClick={() => setUpdating(true)}>
                         Изменить
                     </Button>
                 </CardFooter>
             )}
         </Card>
     );
-};
+});
 
 function getBgColor(step: AttributeModel): string {
     if (step.completed) {
