@@ -5,6 +5,7 @@ import { AttributeResponse } from "./api-models";
 
 export class DefaultMessagsApi implements IMessagesApi {
     private readonly URL = "http://belgrade.coxel.ru/core/question";
+    private readonly RECOMMENDATIONS_URL = "http://belgrade.coxel.ru/core/fuzzy_recommendation";
     private readonly ERROR_LIMIT = 3;
 
     private errorCounter = 0;
@@ -25,7 +26,13 @@ export class DefaultMessagsApi implements IMessagesApi {
 
             return {
                 ...mappedRes,
-                messages: [...attributes, ...mappedRes.messages],
+                messages: [
+                    ...attributes,
+                    ...(!res.cases?.length && !res.question
+                        ? (await this.doRecommendationsRequest(attributes).then(mapResponse))
+                              .messages
+                        : mappedRes.messages),
+                ],
             };
         } catch (error: unknown) {
             this.errorCounter++;
@@ -38,7 +45,20 @@ export class DefaultMessagsApi implements IMessagesApi {
     private async doResolveRequest(
         attributes: CompletedAttribute[]
     ): Promise<AttributeResponse> {
-        const response = await fetch(this.URL, {
+        return this.doRequest(this.URL, attributes);
+    }
+
+    private async doRecommendationsRequest(
+        attributes: CompletedAttribute[]
+    ): Promise<AttributeResponse> {
+        return this.doRequest(this.RECOMMENDATIONS_URL, attributes);
+    }
+
+    private async doRequest(
+        url: string,
+        attributes: CompletedAttribute[]
+    ): Promise<AttributeResponse> {
+        const response = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
