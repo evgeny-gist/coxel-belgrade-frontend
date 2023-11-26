@@ -6,12 +6,16 @@ import { isAttribute, isAttributeUncompleted } from "@domain/attribute";
 import { last } from "../../../utils/arrays";
 import { Recommendation } from "@entities/recommendation";
 import { WithAutoScroll } from "../../../utils/with-autofocus";
+import { useState } from "react";
+import { requestsRepository } from "@repositories/requests";
 
 type MessagesListProps = {
     marginBottom?: string | number;
 };
 
 export const MessagesList = observer(({ marginBottom }: MessagesListProps) => {
+    const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
     const messages = messagesRepository.get();
     const loading = messagesRepository.loading;
 
@@ -29,8 +33,14 @@ export const MessagesList = observer(({ marginBottom }: MessagesListProps) => {
         messagesRepository.advance(value);
     };
 
+    const handleUpdateStart = (index: number) => {
+        setActiveIndex(index);
+        requestsRepository.reset();
+    }
+
     const handleUpdate = (index: number, value: string): void => {
         messagesRepository.update(index, value);
+        setActiveIndex(null);
     };
 
     const isFinalStep = !last(
@@ -39,22 +49,25 @@ export const MessagesList = observer(({ marginBottom }: MessagesListProps) => {
 
     return (
         <Box marginBottom={marginBottom}>
-            {messages.map((m, i) =>
-                isAttribute(m) ? (
-                    <WithAutoScroll key={m.question}>
-                        <Attribute
-                            attribute={m}
-                            marginBottom={4}
-                            onSelect={handleSelect}
-                            onUpdate={(value) => handleUpdate(i, value)}
-                        />
-                    </WithAutoScroll>
-                ) : (
-                    <WithAutoScroll key={JSON.stringify(m.cases)}>
-                        <Recommendation recommedation={m} isFinalStep={isFinalStep} />
-                    </WithAutoScroll>
-                )
-            )}
+            {messages
+                .slice(0, typeof activeIndex === "number" ? activeIndex + 1 : messages.length)
+                .map((m, i) =>
+                    isAttribute(m) ? (
+                        <WithAutoScroll key={m.question}>
+                            <Attribute
+                                attribute={m}
+                                marginBottom={4}
+                                onSelect={handleSelect}
+                                onUpdateStart={() => handleUpdateStart(i)}
+                                onUpdate={(value) => handleUpdate(i, value)}
+                            />
+                        </WithAutoScroll>
+                    ) : (
+                        <WithAutoScroll key={JSON.stringify(m.cases)}>
+                            <Recommendation recommedation={m} isFinalStep={isFinalStep} />
+                        </WithAutoScroll>
+                    )
+                )}
             {loading && (
                 <WithAutoScroll>
                     <AttributeLoader />

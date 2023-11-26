@@ -21,11 +21,12 @@ type AttributeProps = {
     attribute: AttributeModel;
     marginBottom?: string | number;
     onSelect?: (value: string) => void;
+    onUpdateStart?: () => void;
     onUpdate?: (value: string) => void;
 };
 
 export const Attribute: FC<AttributeProps> = observer((props) => {
-    const { attribute, marginBottom, onSelect, onUpdate } = props;
+    const { attribute, marginBottom, onSelect, onUpdate, onUpdateStart } = props;
 
     const anotherKey = "another";
     const [anotherOptionEnabled, setAnotherOption] = useState(false);
@@ -45,7 +46,7 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
         const handleUpdate = (value: string): void => {
             setUpdating(false);
             onUpdate && onUpdate(value);
-        }
+        };
 
         return (
             <Attribute
@@ -94,6 +95,11 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
         );
     }
 
+    const handleUpdateClick = () => {
+        onUpdateStart && onUpdateStart();
+        setUpdating(true);
+    }
+
     return (
         <Card
             marginBottom={marginBottom}
@@ -118,7 +124,7 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
             </CardBody>
             {isAttributeCompleted(attribute) && (
                 <CardFooter>
-                    <Button colorScheme="blue" variant="link" onClick={() => setUpdating(true)}>
+                    <Button colorScheme="blue" variant="link" onClick={() => handleUpdateClick()}>
                         Изменить
                     </Button>
                 </CardFooter>
