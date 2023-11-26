@@ -4,7 +4,7 @@ import { IRequestsApi } from "@repositories/requests/dependencies/requests-api.i
 import { Request } from "@domain/request";
 
 export class DefaultRequestsApi implements IRequestsApi {
-    private readonly URL = "https://belgrade.coxel.ru/core/question";
+    private readonly URL = "https://belgrade.coxel.ru/core/upload_request";
     private readonly ERROR_LIMIT = 3;
 
     private errorCounter = 0;
