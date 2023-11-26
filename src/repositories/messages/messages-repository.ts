@@ -31,9 +31,7 @@ export class MessagesRepository {
     }
 
     advance(currentAttributeValue: string): void {
-        console.debug("before", this.messages);
         this.updateCurrentAttribute(currentAttributeValue);
-        console.debug("after", this.messages);
         this.makeRequest(selectCompletedAttributes(this.messages));
     }
 
