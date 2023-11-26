@@ -33,6 +33,7 @@ export const Cases: FC<CasesProps> = ({ cases }) => {
                     </h2>
                     <AccordionPanel px={0} pb={4}>
                         <div
+                            className="markdown_container"
                             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(c.text) }}
                         ></div>
                     </AccordionPanel>
