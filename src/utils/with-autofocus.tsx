@@ -11,7 +11,10 @@ export const WithAutoScroll: FC<AutofocusProps> = ({ children }) => {
     useLayoutEffect(() => {
         if (!initialized && elRef.current) {
             setInitialized(true);
-            elRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+            setTimeout(
+                () => elRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+                100
+            );
         }
     }, [initialized]);
 
