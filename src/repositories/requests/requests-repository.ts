@@ -1,6 +1,7 @@
 import { Request } from "@domain/request";
 import { makeAutoObservable } from "mobx";
 import { IRequestsApi } from "./dependencies/requests-api.interface";
+import { CompletedAttribute } from "@domain/attribute";
 
 export class RequestsRepositories {
     constructor(private readonly api: IRequestsApi) {
@@ -27,11 +28,11 @@ export class RequestsRepositories {
         this.setEnabled(value);
     }
 
-    public submit(value: Request): void {
+    public submit(value: Request, attributes: CompletedAttribute[]): void {
         this.setLoading(true);
 
         this.api
-            .submit(value)
+            .submit(value, attributes)
             .then(() => this.setSubmitted())
             .finally(() => this.setLoading(false));
     }

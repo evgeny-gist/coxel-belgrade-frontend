@@ -1,11 +1,15 @@
+// TODO fix typings
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { requestsRepository } from "@repositories/requests";
 import { observer } from "mobx-react";
 import { Field, Form, Formik } from "formik";
 import { Request } from "@domain/request";
 import { FormControl, FormLabel, Input, Button, Textarea, Box, Text } from "@chakra-ui/react";
+import { messagesRepository } from "@repositories/messages";
 
 export const RequestsForm = observer(() => {
     const { enabled, loading } = requestsRepository;
+    const completedAttributes = messagesRepository.getCompleted();
 
     if (!enabled) {
         return <></>;
@@ -25,7 +29,7 @@ export const RequestsForm = observer(() => {
             return;
         }
 
-        requestsRepository.submit(value);
+        requestsRepository.submit(value, completedAttributes);
     };
 
     return (
@@ -35,7 +39,7 @@ export const RequestsForm = observer(() => {
                 {() => (
                     <Form>
                         <Field name="name">
-                            {({ field }) => (
+                            {({ field }: { field: any }) => (
                                 // TODO solve typing issue
                                 <FormControl mb={3}>
                                     <FormLabel>Ваше имя</FormLabel>
@@ -44,7 +48,7 @@ export const RequestsForm = observer(() => {
                             )}
                         </Field>
                         <Field name="topic">
-                            {({ field }) => (
+                            {({ field }: { field: any }) => (
                                 <FormControl mb={3}>
                                     <FormLabel>Тема обращения</FormLabel>
                                     <Input {...field} placeholder="Тема" />
@@ -52,7 +56,7 @@ export const RequestsForm = observer(() => {
                             )}
                         </Field>
                         <Field name="email">
-                            {({ field }) => (
+                            {({ field }: { field: any }) => (
                                 <FormControl mb={3}>
                                     <FormLabel>Электронная почта</FormLabel>
                                     <Input type="email" {...field} placeholder="Почта" />
@@ -60,7 +64,7 @@ export const RequestsForm = observer(() => {
                             )}
                         </Field>
                         <Field name="text">
-                            {({ field }) => (
+                            {({ field }: { field: any }) => (
                                 <FormControl mb={5}>
                                     <FormLabel>Текст обращения</FormLabel>
                                     <Textarea {...field} placeholder="Текст обращения" />

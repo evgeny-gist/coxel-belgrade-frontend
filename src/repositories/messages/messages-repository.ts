@@ -2,7 +2,7 @@ import { IMessagesApi, ResolveResponse } from "./dependencies/messages-api.inter
 import { makeAutoObservable } from "mobx";
 import { Message } from "@domain/message";
 import { selectAttributes, selectCompletedAttributes } from "./helpers";
-import { CompletedAttribute } from "@domain/attribute";
+import { CompletedAttribute, isAttribute, isAttributeCompleted } from "@domain/attribute";
 import { IRequestsAdapter } from "./dependencies/requests-adapter.interface";
 
 export class MessagesRepository {
@@ -22,6 +22,12 @@ export class MessagesRepository {
         return [...this.messages];
     }
 
+    getCompleted(): CompletedAttribute[] {
+        return this.messages.filter(
+            (m) => isAttribute(m) && isAttributeCompleted(m)
+        ) as CompletedAttribute[];
+    }
+
     init(): void {
         if (this.initialized) {
             return;
@@ -34,7 +40,7 @@ export class MessagesRepository {
         this.updateCurrentAttribute(currentAttributeValue);
         this.makeRequest(selectCompletedAttributes(this.messages));
     }
-    
+
     reset(): void {
         this.setMessages([]);
         this.setLoading(false);
