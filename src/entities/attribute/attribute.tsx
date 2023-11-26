@@ -1,10 +1,12 @@
 import {
+    Box,
     Button,
     Card,
     CardBody,
     CardFooter,
     CardHeader,
     Input,
+    Kbd,
     Select,
     Text,
 } from "@chakra-ui/react";
@@ -31,6 +33,11 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
     const anotherKey = "another";
     const [anotherOptionEnabled, setAnotherOption] = useState(false);
     const [anotherInputValue, setAnotherValue] = useState("");
+
+    const anotherValueCanBeSubmitted = anotherInputValue.length > 0;
+    const submitAnotherValue = () => {
+        onSelect && onSelect(anotherInputValue);
+    };
 
     const [isUpdating, setUpdating] = useState(false);
 
@@ -62,6 +69,12 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
     }
 
     if (!isAttributeCompleted(attribute) && isSelectAttribute(attribute)) {
+        const onInputKeyDown = (event: KeyboardEvent): void => {
+            if (anotherValueCanBeSubmitted && event.key === "Enter") {
+                submitAnotherValue();
+            }
+        };
+
         return (
             <>
                 <Select
@@ -82,14 +95,29 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
                     <option value="another">Другое</option>
                 </Select>
                 {anotherOptionEnabled && (
-                    <Input
-                        borderRadius="md"
-                        borderColor={getBorderColor(attribute)}
-                        placeholder={attribute.question}
-                        color={getTextColor()}
-                        value={anotherInputValue}
-                        onChange={(e) => setAnotherValue(e.target.value)}
-                    />
+                    <Box position="relative">
+                        <Input
+                            borderRadius="md"
+                            borderColor={getBorderColor(attribute)}
+                            placeholder={attribute.question}
+                            color={getTextColor()}
+                            value={anotherInputValue}
+                            onChange={(e) => setAnotherValue(e.target.value)}
+                            onKeyDown={(e) => onInputKeyDown(e as unknown as KeyboardEvent)}
+                        />
+                        {anotherValueCanBeSubmitted && (
+                            <Button
+                                variant="link"
+                                position="absolute"
+                                right={5}
+                                top="50%"
+                                transform="translateY(-50%)"
+                                onClick={submitAnotherValue}
+                            >
+                                <Kbd>enter</Kbd>
+                            </Button>
+                        )}
+                    </Box>
                 )}
             </>
         );
@@ -98,7 +126,7 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
     const handleUpdateClick = () => {
         onUpdateStart && onUpdateStart();
         setUpdating(true);
-    }
+    };
 
     return (
         <Card
@@ -124,7 +152,11 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
             </CardBody>
             {isAttributeCompleted(attribute) && (
                 <CardFooter>
-                    <Button colorScheme="blue" variant="link" onClick={() => handleUpdateClick()}>
+                    <Button
+                        colorScheme="blue"
+                        variant="link"
+                        onClick={() => handleUpdateClick()}
+                    >
                         Изменить
                     </Button>
                 </CardFooter>
@@ -156,11 +188,7 @@ function getResponse(step: CompletedAttribute): string {
 
     const res = step.options?.find((o) => o.value === step.response)?.label;
 
-    if (!res) {
-        throw new Error("response not found");
-    }
-
-    return res;
+    return res || step.response;
 }
 
 function getTextColor(): string {
