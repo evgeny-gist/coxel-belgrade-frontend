@@ -5,6 +5,7 @@ import {
     CardBody,
     CardFooter,
     CardHeader,
+    Heading,
     Input,
     Kbd,
     Select,
@@ -145,9 +146,9 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
             </CardHeader>
             <CardBody py={1}>
                 {isAttributeCompleted(attribute) && (
-                    <Text color={getTextColor()} fontSize="2xl" fontWeight="bold">
+                    <Heading as="h3" color={getTextColor()} fontSize="2xl" fontWeight="bold">
                         {getResponse(attribute)}
-                    </Text>
+                    </Heading>
                 )}
             </CardBody>
             {isAttributeCompleted(attribute) && (
