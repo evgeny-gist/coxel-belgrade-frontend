@@ -6,6 +6,13 @@ import { requestsRepository } from "@repositories/requests";
 import { observer } from "mobx-react";
 
 const theme = extendTheme({
+    styles: {
+        global: {
+            "html, body": {
+                backgroundColor: "gray.50",
+            },
+        },
+    },
     fonts: {
         heading: "'Rubik', sans-serif",
     },
