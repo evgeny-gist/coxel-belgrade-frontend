@@ -1,4 +1,4 @@
-import { CompletedAttribute } from "@domain/attribute";
+import { CompletedAttribute, isAttribute } from "@domain/attribute";
 import { IMessagesApi, ResolveResponse } from "../../dependencies/messages-api.interface";
 import { mapAttributes, mapResponse } from "./api-mappers";
 import { AttributeResponse } from "./api-models";
@@ -29,8 +29,11 @@ export class DefaultMessagsApi implements IMessagesApi {
                 messages: [
                     ...attributes,
                     ...(!res.cases?.length && !res.question
-                        ? (await this.doRecommendationsRequest(attributes).then(mapResponse))
-                              .messages
+                        ? (
+                              await this.doRecommendationsRequest(attributes).then(mapResponse)
+                          ).messages.map((m) =>
+                              isAttribute(m) ? m : { ...m, strictMatch: false }
+                          )
                         : mappedRes.messages),
                 ],
             };
