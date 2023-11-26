@@ -1,13 +1,15 @@
 import { Request } from "@domain/request";
 import { makeAutoObservable } from "mobx";
+import { IRequestsApi } from "./dependencies/requests-api.interface";
 
 export class RequestsRepositories {
-    constructor() {
+    constructor(private readonly api: IRequestsApi) {
         makeAutoObservable(this);
     }
 
     private _enabled = false;
     private _loading = false;
+    private _submitted = false;
 
     public get enabled(): boolean {
         return this._enabled;
@@ -17,12 +19,21 @@ export class RequestsRepositories {
         return this._loading;
     }
 
+    public get submitted(): boolean {
+        return this._submitted;
+    }
+
     public toggle(value: boolean): void {
         this.setEnabled(value);
     }
 
     public submit(value: Request): void {
         this.setLoading(true);
+
+        this.api
+            .submit(value)
+            .then(() => this.setSubmitted())
+            .finally(() => this.setLoading(false));
     }
 
     private setEnabled(value: boolean): void {
@@ -31,5 +42,9 @@ export class RequestsRepositories {
 
     private setLoading(value = true): void {
         this._loading = value;
+    }
+
+    private setSubmitted(value = true): void {
+        this._submitted = value;
     }
 }
