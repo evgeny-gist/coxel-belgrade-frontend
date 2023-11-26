@@ -22,14 +22,16 @@ export const Cases: FC<CasesProps> = ({ cases }) => {
             {cases.map((c) => (
                 <AccordionItem key={`${c.name}__${c.date}`}>
                     <h2>
-                        <AccordionButton>
+                        <AccordionButton px={0}>
                             <Box as="span" flex="1" textAlign="left" color="blackAlpha.600">
                                 {c.name}
                             </Box>
                             {!onlyOneCase && <AccordionIcon />}
                         </AccordionButton>
                     </h2>
-                    <AccordionPanel pb={4}>{c.text}</AccordionPanel>
+                    <AccordionPanel px={0} pb={4}>
+                        {c.text}
+                    </AccordionPanel>
                 </AccordionItem>
             ))}
         </Accordion>
