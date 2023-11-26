@@ -4,8 +4,8 @@ import { mapAttributes, mapResponse } from "./api-mappers";
 import { AttributeResponse } from "./api-models";
 
 export class DefaultMessagsApi implements IMessagesApi {
-    private readonly URL = "http://belgrade.coxel.ru/core/question";
-    private readonly RECOMMENDATIONS_URL = "http://belgrade.coxel.ru/core/fuzzy_recommendation";
+    private readonly URL = "https://belgrade.coxel.ru/core/question";
+    private readonly RECOMMENDATIONS_URL = "https://belgrade.coxel.ru/core/fuzzy_recommendation";
     private readonly ERROR_LIMIT = 3;
 
     private errorCounter = 0;
