@@ -6,7 +6,7 @@ export const MainPage = () => {
     return (
         <Container w="100%">
             <Heading marginBottom={8} as="h1" fontSize="4xl">
-                Приёмная
+                Приёмочная
             </Heading>
             <MessagesList marginBottom={8} />
             <RequestsForm />
