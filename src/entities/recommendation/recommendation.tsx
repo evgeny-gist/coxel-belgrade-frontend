@@ -9,10 +9,19 @@ import { Cases } from "./components/cases";
 
 type RecommendationProps = {
     recommedation: RecommendationModel;
+    isFinalStep: boolean;
     marginBottom?: string | number;
 };
 
-export const Recommendation: FC<RecommendationProps> = ({ marginBottom, recommedation }) => {
+export const Recommendation: FC<RecommendationProps> = ({
+    marginBottom,
+    recommedation,
+    isFinalStep: finalStep,
+}) => {
+    if (isUniqueRecommendation(recommedation) && !finalStep) {
+        return <></>;
+    }
+
     return (
         <Card
             marginBottom={marginBottom}

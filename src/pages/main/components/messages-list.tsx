@@ -2,7 +2,7 @@ import { Attribute, AttributeLoader } from "@entities/attribute";
 import { Box } from "@chakra-ui/react";
 import { observer } from "mobx-react";
 import { messagesRepository } from "@repositories/messages";
-import { isAttribute } from "@domain/attribute";
+import { isAttribute, isAttributeUncompleted } from "@domain/attribute";
 import { last } from "../../../utils/arrays";
 import { Recommendation } from "@entities/recommendation";
 
@@ -28,6 +28,10 @@ export const MessagesList = observer(({ marginBottom }: MessagesListProps) => {
         messagesRepository.advance(value);
     };
 
+    const isFinalStep = !last(
+        messages.filter((m) => isAttribute(m) && isAttributeUncompleted(m))
+    );
+
     return (
         <Box marginBottom={marginBottom}>
             {messages.map((m) =>
@@ -39,7 +43,11 @@ export const MessagesList = observer(({ marginBottom }: MessagesListProps) => {
                         onSelect={handleSelect}
                     />
                 ) : (
-                    <Recommendation recommedation={m} key={JSON.stringify(m.cases)} />
+                    <Recommendation
+                        recommedation={m}
+                        isFinalStep={isFinalStep}
+                        key={JSON.stringify(m.cases)}
+                    />
                 )
             )}
             {loading && <AttributeLoader />}
