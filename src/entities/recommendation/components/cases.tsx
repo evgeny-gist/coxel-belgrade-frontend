@@ -18,7 +18,7 @@ export const Cases: FC<CasesProps> = ({ cases }) => {
     const onlyOneCase = cases.length === 1;
 
     return (
-        <Accordion allowToggle index={onlyOneCase ? 0 : -1}>
+        <Accordion allowToggle index={onlyOneCase ? 0 : undefined}>
             {cases.map((c) => (
                 <AccordionItem key={`${c.name}__${c.date}`}>
                     <h2>
