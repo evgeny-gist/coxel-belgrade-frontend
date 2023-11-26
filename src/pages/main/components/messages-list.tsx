@@ -36,7 +36,7 @@ export const MessagesList = observer(({ marginBottom }: MessagesListProps) => {
     const handleUpdateStart = (index: number) => {
         setActiveIndex(index);
         requestsRepository.reset();
-    }
+    };
 
     const handleUpdate = (index: number, value: string): void => {
         messagesRepository.update(index, value);
@@ -56,7 +56,7 @@ export const MessagesList = observer(({ marginBottom }: MessagesListProps) => {
                         <WithAutoScroll key={m.question}>
                             <Attribute
                                 attribute={m}
-                                marginBottom={4}
+                                marginBottom={8}
                                 onSelect={handleSelect}
                                 onUpdateStart={() => handleUpdateStart(i)}
                                 onUpdate={(value) => handleUpdate(i, value)}
@@ -64,7 +64,11 @@ export const MessagesList = observer(({ marginBottom }: MessagesListProps) => {
                         </WithAutoScroll>
                     ) : (
                         <WithAutoScroll key={JSON.stringify(m.cases)}>
-                            <Recommendation recommedation={m} isFinalStep={isFinalStep} />
+                            <Recommendation
+                                marginBottom={8}
+                                recommedation={m}
+                                isFinalStep={isFinalStep}
+                            />
                         </WithAutoScroll>
                     )
                 )}

@@ -78,13 +78,16 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
 
         return (
             <>
+                <Heading as="h4" fontSize="md" mb={4} fontWeight={400}>
+                    {attribute.question}
+                </Heading>
                 <Select
                     w="100%"
                     mb={2}
                     size="md"
                     borderRadius="md"
                     borderColor={getBorderColor(attribute)}
-                    placeholder={attribute.question}
+                    placeholder="-"
                     color={getTextColor()}
                     onChange={(e) => handleSelect(e.target.value)}
                 >
@@ -129,7 +132,7 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
         setUpdating(true);
     };
 
-    // TODO card styles duplicate between attribute, recommendation, and form; fix it   
+    // TODO card styles duplicate between attribute, recommendation, and form; fix it
     return (
         <Card
             marginBottom={marginBottom}

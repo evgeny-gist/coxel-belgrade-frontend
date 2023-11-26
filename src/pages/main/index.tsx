@@ -6,7 +6,7 @@ export const MainPage = () => {
     return (
         <Container w="100%">
             <Heading
-                marginBottom={10}
+                marginBottom={12}
                 as="h1"
                 fontSize="4xl"
                 fontWeight="800"
