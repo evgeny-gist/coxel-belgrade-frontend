@@ -129,13 +129,14 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
         setUpdating(true);
     };
 
+    // TODO card styles duplicate between attribute, recommendation, and form; fix it   
     return (
         <Card
             marginBottom={marginBottom}
             w="100%"
             overflow="hidden"
-            borderWidth="1px"
-            borderRadius="md"
+            borderWidth={6}
+            borderRadius={16}
             borderColor={getBorderColor(attribute)}
             backgroundColor={getBgColor(attribute)}
         >
@@ -176,10 +177,10 @@ function getBgColor(step: AttributeModel): string {
 
 function getBorderColor(step: AttributeModel): string {
     if (step.completed) {
-        return "blue.200";
+        return "blue.100";
     }
 
-    return "gray.400";
+    return "gray.200";
 }
 
 function getResponse(step: CompletedAttribute): string {

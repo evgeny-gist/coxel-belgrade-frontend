@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader, Heading } from "@chakra-ui/react";
+import { Card, CardBody, CardHeader, Text } from "@chakra-ui/react";
 import {
     Recommendation as RecommendationModel,
     isOptimalRecommendation,
@@ -27,15 +27,15 @@ export const Recommendation: FC<RecommendationProps> = ({
             marginBottom={marginBottom}
             w="100%"
             overflow="hidden"
-            borderWidth="1px"
-            borderRadius="md"
+            borderWidth={6}
+            borderRadius={16}
             borderColor={getBorderColor(recommedation)}
             backgroundColor={getBgColor(recommedation)}
         >
             <CardHeader>
-                <Heading size="sm" color="blackAlpha.700">
+                <Text fontSize="xl" color="blackAlpha.700">
                     {getTitle(recommedation)}
-                </Heading>
+                </Text>
             </CardHeader>
             {!!recommedation.cases.length && (
                 <CardBody>
