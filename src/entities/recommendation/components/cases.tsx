@@ -15,16 +15,18 @@ type CasesProps = {
 };
 
 export const Cases: FC<CasesProps> = ({ cases }) => {
+    const onlyOneCase = cases.length === 1;
+
     return (
-        <Accordion allowToggle>
+        <Accordion allowToggle index={onlyOneCase ? 0 : -1}>
             {cases.map((c) => (
                 <AccordionItem key={`${c.name}__${c.date}`}>
                     <h2>
                         <AccordionButton>
-                            <Box as="span" flex="1" textAlign="left">
+                            <Box as="span" flex="1" textAlign="left" color="blackAlpha.600">
                                 {c.name}
                             </Box>
-                            <AccordionIcon />
+                            {!onlyOneCase && <AccordionIcon />}
                         </AccordionButton>
                     </h2>
                     <AccordionPanel pb={4}>{c.text}</AccordionPanel>
