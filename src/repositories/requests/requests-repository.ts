@@ -36,6 +36,12 @@ export class RequestsRepositories {
             .finally(() => this.setLoading(false));
     }
 
+    public reset(): void {
+        this.setEnabled(false);
+        this.setLoading(false);
+        this.setSubmitted(false);
+    }
+
     private setEnabled(value: boolean): void {
         this._enabled = value;
     }

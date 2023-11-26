@@ -34,6 +34,12 @@ export class MessagesRepository {
         this.updateCurrentAttribute(currentAttributeValue);
         this.makeRequest(selectCompletedAttributes(this.messages));
     }
+    
+    reset(): void {
+        this.setMessages([]);
+        this.setLoading(false);
+        this.setInitialized(false);
+    }
 
     private updateCurrentAttribute(value: string): void {
         const attributes = selectAttributes(this.messages);
