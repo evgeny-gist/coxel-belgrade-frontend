@@ -7,7 +7,9 @@ import {
     Box,
 } from "@chakra-ui/react";
 import { Case } from "@domain/case";
+import DOMPurify from "dompurify";
 import { FC } from "react";
+import "./cases.css";
 
 type CasesProps = {
     cases: Case[];
@@ -30,7 +32,9 @@ export const Cases: FC<CasesProps> = ({ cases }) => {
                         </AccordionButton>
                     </h2>
                     <AccordionPanel px={0} pb={4}>
-                        {c.text}
+                        <div
+                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(c.text) }}
+                        ></div>
                     </AccordionPanel>
                 </AccordionItem>
             ))}

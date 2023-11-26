@@ -2,6 +2,7 @@ import { CompletedAttribute } from "@domain/attribute";
 import { AttributeRequest, AttributeResponse } from "./api-models";
 import { ResolveResponse } from "@repositories/messages/dependencies/messages-api.interface";
 import { Message } from "@domain/message";
+import { marked } from 'marked';
 
 export const mapAttributes = (attributes: CompletedAttribute[]): AttributeRequest => ({
     attrs: attributes.map((a) => ({
@@ -33,7 +34,7 @@ export const mapResponse = (response: AttributeResponse): ResolveResponse => ({
                 response.cases?.map((c) => ({
                     date: c.update_date,
                     name: c.name,
-                    text: c.text,
+                    text: marked.parse(c.text),
                 })) || [],
         },
     ],
