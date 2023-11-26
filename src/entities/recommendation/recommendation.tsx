@@ -33,7 +33,7 @@ export const Recommendation: FC<RecommendationProps> = ({
             backgroundColor={getBgColor(recommedation)}
         >
             <CardHeader>
-                <Text fontSize="xl" color="blackAlpha.700">
+                <Text fontSize="md" color="blackAlpha.700">
                     {getTitle(recommedation)}
                 </Text>
             </CardHeader>

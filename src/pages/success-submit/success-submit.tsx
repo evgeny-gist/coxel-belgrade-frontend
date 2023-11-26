@@ -10,7 +10,7 @@ export const SuccessSubmitPage = () => {
 
     return (
         <Card backgroundColor="green.50" overflow="hidden" p={8}>
-            <CardBody color="blackAlpha.700" fontSize="lg" textAlign="center">
+            <CardBody color="blackAlpha.700" fontSize="xl" textAlign="center">
                 Ваша заявка принята! Свяжемся с вами в ближайшее время
             </CardBody>
             <CardFooter>

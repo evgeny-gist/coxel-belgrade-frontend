@@ -8,7 +8,7 @@ export const MainPage = () => {
             <Heading
                 marginBottom={10}
                 as="h1"
-                fontSize="5xl"
+                fontSize="4xl"
                 fontWeight="800"
                 color="blackAlpha.800"
             >

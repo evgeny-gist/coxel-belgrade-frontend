@@ -1,22 +1,10 @@
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { Container } from "@chakra-ui/react";
 import { MainPage } from "@pages/main";
 import { SuccessSubmitPage } from "@pages/success-submit";
 import { requestsRepository } from "@repositories/requests";
 import { observer } from "mobx-react";
-
-const theme = extendTheme({
-    styles: {
-        global: {
-            "html, body": {
-                backgroundColor: "gray.50",
-            },
-        },
-    },
-    fonts: {
-        heading: "'Rubik', sans-serif",
-    },
-});
+import { theme } from "./theme";
 
 export function App() {
     return (

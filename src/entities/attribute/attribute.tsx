@@ -81,7 +81,7 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
                 <Select
                     w="100%"
                     mb={2}
-                    size="lg"
+                    size="md"
                     borderRadius="md"
                     borderColor={getBorderColor(attribute)}
                     placeholder={attribute.question}
@@ -141,13 +141,13 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
             backgroundColor={getBgColor(attribute)}
         >
             <CardHeader>
-                <Text color={getTextColor()} fontSize="xl">
+                <Text color={getTextColor()} fontSize="lg">
                     {attribute.question}
                 </Text>
             </CardHeader>
             <CardBody py={1}>
                 {isAttributeCompleted(attribute) && (
-                    <Heading as="h3" color={getTextColor()} fontSize="2xl" fontWeight="bold">
+                    <Heading as="h3" color={getTextColor()} fontSize="xl" fontWeight="bold">
                         {getResponse(attribute)}
                     </Heading>
                 )}

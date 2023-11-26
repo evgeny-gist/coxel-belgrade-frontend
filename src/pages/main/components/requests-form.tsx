@@ -34,7 +34,7 @@ export const RequestsForm = observer(() => {
 
     return (
         <Box p={8} borderRadius={16} borderColor="gray.300" borderWidth={6}>
-            <Text mb={6} fontSize="xl">
+            <Text mb={6} fontSize="md">
                 Опишите подробнее вашу проблему и мы свяжемся с вами
             </Text>
             <Formik initialValues={initialValues} onSubmit={handleSubmit}>
