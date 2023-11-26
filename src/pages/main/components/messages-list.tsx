@@ -5,6 +5,7 @@ import { messagesRepository } from "@repositories/messages";
 import { isAttribute, isAttributeUncompleted } from "@domain/attribute";
 import { last } from "../../../utils/arrays";
 import { Recommendation } from "@entities/recommendation";
+import { WithAutoScroll } from "../../../utils/with-autofocus";
 
 type MessagesListProps = {
     marginBottom?: string | number;
@@ -34,23 +35,29 @@ export const MessagesList = observer(({ marginBottom }: MessagesListProps) => {
 
     return (
         <Box marginBottom={marginBottom}>
-            {messages.map((m) =>
-                isAttribute(m) ? (
-                    <Attribute
-                        attribute={m}
-                        key={m.question}
-                        marginBottom={4}
-                        onSelect={handleSelect}
-                    />
-                ) : (
-                    <Recommendation
-                        recommedation={m}
-                        isFinalStep={isFinalStep}
-                        key={JSON.stringify(m.cases)}
-                    />
-                )
+            {messages.map((m) => (
+                <WithAutoScroll>
+                    {isAttribute(m) ? (
+                        <Attribute
+                            attribute={m}
+                            key={m.question}
+                            marginBottom={4}
+                            onSelect={handleSelect}
+                        />
+                    ) : (
+                        <Recommendation
+                            recommedation={m}
+                            isFinalStep={isFinalStep}
+                            key={JSON.stringify(m.cases)}
+                        />
+                    )}
+                </WithAutoScroll>
+            ))}
+            {loading && (
+                <WithAutoScroll>
+                    <AttributeLoader />
+                </WithAutoScroll>
             )}
-            {loading && <AttributeLoader />}
         </Box>
     );
 });
