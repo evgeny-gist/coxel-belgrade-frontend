@@ -4,7 +4,9 @@ export const theme = extendTheme({
     styles: {
         global: {
             "html, body": {
-                backgroundColor: "gray.50",
+                background:
+                    "linear-gradient(45deg, rgb(233, 216, 253, 0.4), rgb(196, 241, 249, 0.4), rgb(233, 216, 253, 0.4), rgb(196, 241, 249, 0.4))",
+                minHeight: "100vh",
             },
         },
     },

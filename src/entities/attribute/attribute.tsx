@@ -81,10 +81,13 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
                     {attribute.question}
                 </Heading>
                 <Select
+                    variant="filled"
                     w="100%"
                     mb={2}
                     size="md"
-                    borderRadius="md"
+                    backgroundColor="whiteAlpha.700"
+                    borderWidth={3}
+                    borderRadius="xl"
                     borderColor={getBorderColor(attribute)}
                     placeholder="-"
                     color={getTextColor()}
@@ -100,8 +103,11 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
                 {anotherOptionEnabled && (
                     <Box position="relative">
                         <Input
-                            borderRadius="md"
+                            variant="filled"
                             borderColor={getBorderColor(attribute)}
+                            borderRadius="xl"
+                            borderWidth={3}
+                            backgroundColor="whiteAlpha.700"
                             placeholder={attribute.question}
                             color={getTextColor()}
                             value={anotherInputValue}
@@ -137,10 +143,10 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
             marginBottom={marginBottom}
             w="100%"
             overflow="hidden"
-            borderWidth={6}
+            borderWidth={3}
             borderRadius={16}
             borderColor={getBorderColor(attribute)}
-            backgroundColor={getBgColor(attribute)}
+            backgroundColor={getBgColor()}
         >
             <CardHeader>
                 <Text color={getTextColor()} fontSize="lg">
@@ -167,12 +173,12 @@ export const Attribute: FC<AttributeProps> = observer((props) => {
     );
 });
 
-function getBgColor(step: AttributeModel): string {
-    if (step.completed) {
-        return "blue.50";
-    }
+function getBgColor(): string {
+    // if (step.completed) {
+    //     return "blue.50";
+    // }
 
-    return "";
+    return "gray.50";
 }
 
 function getBorderColor(step: AttributeModel): string {
@@ -180,7 +186,7 @@ function getBorderColor(step: AttributeModel): string {
         return "blue.100";
     }
 
-    return "gray.200";
+    return "blue.100";
 }
 
 function getResponse(step: CompletedAttribute): string {

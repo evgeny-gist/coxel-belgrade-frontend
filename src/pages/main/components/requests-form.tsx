@@ -33,7 +33,7 @@ export const RequestsForm = observer(() => {
     };
 
     return (
-        <Box p={8} borderRadius={16} borderColor="gray.300" borderWidth={6}>
+        <Box p={8} borderRadius={16} borderColor="gray.300" borderWidth={3} bg="gray.50">
             <Text mb={6} fontSize="md">
                 Опишите подробнее вашу проблему и мы свяжемся с вами
             </Text>
@@ -45,7 +45,7 @@ export const RequestsForm = observer(() => {
                                 // TODO solve typing issue
                                 <FormControl mb={3}>
                                     <FormLabel>Ваше имя</FormLabel>
-                                    <Input {...field} placeholder="Имя" />
+                                    <Input variant="filled" {...field} placeholder="Имя" />
                                 </FormControl>
                             )}
                         </Field>
@@ -53,7 +53,7 @@ export const RequestsForm = observer(() => {
                             {({ field }: { field: any }) => (
                                 <FormControl mb={3}>
                                     <FormLabel>Тема обращения</FormLabel>
-                                    <Input {...field} placeholder="Тема" />
+                                    <Input variant="filled" {...field} placeholder="Тема" />
                                 </FormControl>
                             )}
                         </Field>
@@ -61,7 +61,7 @@ export const RequestsForm = observer(() => {
                             {({ field }: { field: any }) => (
                                 <FormControl mb={3}>
                                     <FormLabel>Электронная почта</FormLabel>
-                                    <Input type="email" {...field} placeholder="Почта" />
+                                    <Input variant="filled" type="email" {...field} placeholder="Почта" />
                                 </FormControl>
                             )}
                         </Field>

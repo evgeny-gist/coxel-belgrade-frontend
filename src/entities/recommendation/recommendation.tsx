@@ -27,10 +27,10 @@ export const Recommendation: FC<RecommendationProps> = ({
             marginBottom={marginBottom}
             w="100%"
             overflow="hidden"
-            borderWidth={6}
+            borderWidth={3}
             borderRadius={16}
             borderColor={getBorderColor(recommedation)}
-            backgroundColor={getBgColor(recommedation)}
+            backgroundColor={getBgColor()}
         >
             <CardHeader>
                 <Text fontSize="md" color="blackAlpha.700">
@@ -58,16 +58,17 @@ function getBorderColor(r: RecommendationModel): string {
     return "yellow.200";
 }
 
-function getBgColor(r: RecommendationModel): string {
-    if (isUniqueRecommendation(r)) {
-        return "red.50";
-    }
+function getBgColor(): string {
+    return "gray.50";
+    // if (isUniqueRecommendation(r)) {
+    //     return "red.50";
+    // }
 
-    if (isOptimalRecommendation(r)) {
-        return "green.50";
-    }
+    // if (isOptimalRecommendation(r)) {
+    //     return "green.50";
+    // }
 
-    return "yellow.50";
+    // return "yellow.50";
 }
 
 function getTitle(r: RecommendationModel): string {
